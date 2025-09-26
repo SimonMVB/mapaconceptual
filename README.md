@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Conceptual de Arquitecturas de Sistemas Operativos</title>
+    <style>
+        :root {
+            --monolithic: #e74c3c;
+            --microkernel: #3498db;
+            --distributed: #2ecc71;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--dark), #34495e);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><path d="M50,5 L75,30 L75,70 L50,95 L25,70 L25,30 Z" fill="white"/></svg>');
+            background-size: 100px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            margin: 0 0.5rem 1rem;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .tab.monolithic {
+            background: var(--monolithic);
+            color: white;
+        }
+        
+        .tab.microkernel {
+            background: var(--microkernel);
+            color: white;
+        }
+        
+        .tab.distributed {
+            background: var(--distributed);
+            color: white;
+        }
+        
+        .tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .tab.active {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+        
+        .concept-map {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .concept-map.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .map-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            border-bottom: 3px solid;
+            padding-bottom: 1rem;
+        }
+        
+        .monolithic .map-title {
+            border-color: var(--monolithic);
+        }
+        
+        .microkernel .map-title {
+            border-color: var(--microkernel);
+        }
+        
+        .distributed .map-title {
+            border-color: var(--distributed);
+        }
+        
+        .concept-central {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .central-node {
+            display: inline-block;
+            background: var(--dark);
+            color: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        
+        .monolithic .central-node {
+            background: var(--monolithic);
+        }
+        
+        .microkernel .central-node {
+            background: var(--microkernel);
+        }
+        
+        .distributed .central-node {
+            background: var(--distributed);
+        }
+        
+        .concept-branches {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .branch {
+            flex: 1;
+            min-width: 300px;
+            max-width: 350px;
+        }
+        
+        .branch-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            color: white;
+            position: relative;
+        }
+        
+        .monolithic .branch-title {
+            background: var(--monolithic);
+        }
+        
+        .microkernel .branch-title {
+            background: var(--microkernel);
+        }
+        
+        .distributed .branch-title {
+            background: var(--distributed);
+        }
+        
+        .concept-node {
+            background: #f8f9fa;
+            border-left: 4px solid;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .monolithic .concept-node {
+            border-left-color: var(--monolithic);
+        }
+        
+        .microkernel .concept-node {
+            border-left-color: var(--microkernel);
+        }
+        
+        .distributed .concept-node {
+            border-left-color: var(--distributed);
+        }
+        
+        .concept-node:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .concept-node.active {
+            background: #e8f4fc;
+            transform: translateX(5px);
+        }
+        
+        .info-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .info-panel.active {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .info-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .close-info {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-content {
+            line-height: 1.8;
+        }
+        
+        .info-content h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-content ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+        
+        .info-content li::before {
+            content: "•";
+            color: var(--microkernel);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .sources {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .sources h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .sources ul {
+            columns: 2;
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .sources li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .sources li::before {
+            content: "🔗";
+            position: absolute;
+            left: 0;
+        }
+        
+        .sources a {
+            color: var(--microkernel);
+            text-decoration: none;
+        }
+        
+        .sources a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .concept-branches {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .branch {
+                min-width: 100%;
+            }
+            
+            .sources ul {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mapa Conceptual de Arquitecturas de Sistemas Operativos</h1>
+        <p class="subtitle">Comparativa entre Arquitecturas Monolítica, Microkernel y Distribuida</p>
+    </header>
+    
+    <div class="nav-tabs">
+        <button class="tab monolithic active" data-arch="monolithic">Arquitectura Monolítica</button>
+        <button class="tab microkernel" data-arch="microkernel">Arquitectura Microkernel</button>
+        <button class="tab distributed" data-arch="distributed">Arquitectura Distribuida</button>
+    </div>
+    
+    <div class="container">
+        <!-- Mapa Conceptual Monolítico -->
+        <div class="concept-map monolithic active">
+            <h2 class="map-title">Arquitectura Monolítica</h2>
+            
+            <div class="concept-central">
+                <div class="central-node">Núcleo Monolítico</div>
+            </div>
+            
+            <div class="concept-branches">
+                <div class="branch">
+                    <div class="branch-title">Características Principales</div>
+                    <div class="concept-node" data-info="monolitica-caracteristicas">Todo en modo kernel</div>
+                    <div class="concept-node" data-info="monolitica-caracteristicas">Alto acoplamiento</div>
+                    <div class="concept-node" data-info="monolitica-caracteristicas">Comunicación directa</div>
+                    <div class="concept-node" data-info="monolitica-caracteristicas">Núcleo grande</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Ventajas</div>
+                    <div class="concept-node" data-info="monolitica-ventajas">Alto rendimiento</div>
+                    <div class="concept-node" data-info="monolitica-ventajas">Simplicidad conceptual</div>
+                    <div class="concept-node" data-info="monolitica-ventajas">Eficiencia en recursos</div>
+                    <div class="concept-node" data-info="monolitica-ventajas">Integración estrecha</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Desventajas</div>
+                    <div class="concept-node" data-info="monolitica-desventajas">Falta de modularidad</div>
+                    <div class="concept-node" data-info="monolitica-desventajas">Poca fiabilidad</div>
+                    <div class="concept-node" data-info="monolitica-desventajas">Dificultad para actualizar</div>
+                    <div class="concept-node" data-info="monolitica-desventajas">Complejidad creciente</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Ejemplos</div>
+                    <div class="concept-node" data-info="monolitica-ejemplos">UNIX tradicional</div>
+                    <div class="concept-node" data-info="monolitica-ejemplos">Linux</div>
+                    <div class="concept-node" data-info="monolitica-ejemplos">MS-DOS</div>
+                    <div class="concept-node" data-info="monolitica-ejemplos">FreeBSD</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mapa Conceptual Microkernel -->
+        <div class="concept-map microkernel">
+            <h2 class="map-title">Arquitectura Microkernel</h2>
+            
+            <div class="concept-central">
+                <div class="central-node">Microkernel</div>
+            </div>
+            
+            <div class="concept-branches">
+                <div class="branch">
+                    <div class="branch-title">Características Principales</div>
+                    <div class="concept-node" data-info="microkernel-caracteristicas">Núcleo mínimo</div>
+                    <div class="concept-node" data-info="microkernel-caracteristicas">Servicios en modo usuario</div>
+                    <div class="concept-node" data-info="microkernel-caracteristicas">Comunicación por mensajes</div>
+                    <div class="concept-node" data-info="microkernel-caracteristicas">Alta modularidad</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Ventajas</div>
+                    <div class="concept-node" data-info="microkernel-ventajas">Mayor fiabilidad</div>
+                    <div class="concept-node" data-info="microkernel-ventajas">Flexibilidad y extensibilidad</div>
+                    <div class="concept-node" data-info="microkernel-ventajas">Portabilidad</div>
+                    <div class="concept-node" data-info="microkernel-ventajas">Seguridad mejorada</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Desventajas</div>
+                    <div class="concept-node" data-info="microkernel-desventajas">Sobrecarga de rendimiento</div>
+                    <div class="concept-node" data-info="microkernel-desventajas">Complejidad del diseño</div>
+                    <div class="concept-node" data-info="microkernel-desventajas">Mayor uso de memoria</div>
+                    <div class="concept-node" data-info="microkernel-desventajas">Context switches frecuentes</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Ejemplos</div>
+                    <div class="concept-node" data-info="microkernel-ejemplos">MINIX</div>
+                    <div class="concept-node" data-info="microkernel-ejemplos">QNX</div>
+                    <div class="concept-node" data-info="microkernel-ejemplos">Mach</div>
+                    <div class="concept-node" data-info="microkernel-ejemplos">L4</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mapa Conceptual Distribuida -->
+        <div class="concept-map distributed">
+            <h2 class="map-title">Arquitectura Distribuida</h2>
+            
+            <div class="concept-central">
+                <div class="central-node">Sistema Distribuido</div>
+            </div>
+            
+            <div class="concept-branches">
+                <div class="branch">
+                    <div class="branch-title">Características Principales</div>
+                    <div class="concept-node" data-info="distribuida-caracteristicas">Múltiples nodos</div>
+                    <div class="concept-node" data-info="distribuida-caracteristicas">Transparencia</div>
+                    <div class="concept-node" data-info="distribuida-caracteristicas">Comunicación por red</div>
+                    <div class="concept-node" data-info="distribuida-caracteristicas">Cooperación</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Ventajas</div>
+                    <div class="concept-node" data-info="distribuida-ventajas">Escalabilidad</div>
+                    <div class="concept-node" data-info="distribuida-ventajas">Tolerancia a fallos</div>
+                    <div class="concept-node" data-info="distribuida-ventajas">Compartición de recursos</div>
+                    <div class="concept-node" data-info="distribuida-ventajas">Rendimiento mejorado</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Desventajas</div>
+                    <div class="concept-node" data-info="distribuida-desventajas">Complejidad</div>
+                    <div class="concept-node" data-info="distribuida-desventajas">Problemas de concurrencia</div>
+                    <div class="concept-node" data-info="distribuida-desventajas">Dependencia de la red</div>
+                    <div class="concept-node" data-info="distribuida-desventajas">Problemas de seguridad</div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-title">Ejemplos</div>
+                    <div class="concept-node" data-info="distribuida-ejemplos">Plan9</div>
+                    <div class="concept-node" data-info="distribuida-ejemplos">Amoeba</div>
+                    <div class="concept-node" data-info="distribuida-ejemplos">Google File System</div>
+                    <div class="concept-node" data-info="distribuida-ejemplos">Apache Hadoop</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Panel de Información -->
+        <div class="info-panel">
+            <div class="info-header">
+                <h2 class="info-title">Información Detallada</h2>
+                <button class="close-info">×</button>
+            </div>
+            <div class="info-content">
+                <!-- El contenido se cargará dinámicamente -->
+            </div>
+        </div>
+        
+        <div class="sources">
+            <h3>Fuentes de Información</h3>
+            <ul>
+                <li><a href="https://www.geeksforgeeks.org/monolithic-kernel-and-key-differences-from-microkernel/" target="_blank">GeeksforGeeks - Monolithic Kernel</a></li>
+                <li><a href="https://www.tutorialspoint.com/operating_system/os_types.htm" target="_blank">TutorialsPoint - Operating System Types</a></li>
+                <li><a href="https://www.javatpoint.com/os-microkernel" target="_blank">JavaTpoint - Microkernel in Operating System</a></li>
+                <li><a href="https://www.studytonight.com/operating-system/microkernel" target="_blank">Studytonight - Microkernel Architecture</a></li>
+                <li><a href="https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/16_Distributed_Systems.html" target="_blank">University of Illinois - Distributed Systems</a></li>
+                <li><a href="https://www.cs.cornell.edu/courses/cs5414/2020sp/" target="_blank">Cornell University - Distributed Systems Concepts</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Actividad Grupal - Sistemas Operativos - Profesor: Marcos Espinoza M.</p>
+        <p>© 2023 - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        // Información detallada para cada concepto
+        const infoData = {
+            // Monolítica
+            "monolitica-caracteristicas": {
+                title: "Arquitectura Monolítica - Características Principales",
+                content: `
+                    <p>La arquitectura monolítica es el diseño más tradicional de sistemas operativos, donde todo el sistema operativo funciona como un único programa en modo kernel.</p>
+                    <h3>Características clave:</h3>
+                    <ul>
+                        <li><strong>Núcleo grande:</strong> Todo el sistema operativo se ejecuta en un único espacio de direcciones en modo kernel.</li>
+                        <li><strong>Alto acoplamiento:</strong> Los componentes del sistema están estrechamente interconectados.</li>
+                        <li><strong>Comunicación directa:</strong> Las funciones del sistema se invocan mediante llamadas directas a procedimientos.</li>
+                        <li><strong>Eficiencia:</strong> Al evitar la sobrecarga de comunicación entre procesos, suele ser más eficiente.</li>
+                        <li><strong>Dificultad de mantenimiento:</strong> Cualquier modificación puede afectar a múltiples componentes.</li>
+                    </ul>
+                `
+            },
+            "monolitica-ventajas": {
+                title: "Arquitectura Monolítica - Ventajas",
+                content: `
+                    <h3>Ventajas principales:</h3>
+                    <ul>
+                        <li><strong>Alto rendimiento:</strong> Las llamadas al sistema son rápidas al ser simples invocaciones a funciones.</li>
+                        <li><strong>Simplicidad conceptual:</strong> Fácil de entender y desarrollar inicialmente.</li>
+                        <li><strong>Eficiencia en recursos:</strong> Menor sobrecarga de comunicación entre componentes.</li>
+                        <li><strong>Integración estrecha:</strong> Los componentes pueden optimizarse para trabajar juntos eficientemente.</li>
+                    </ul>
+                `
+            },
+            "monolitica-desventajas": {
+                title: "Arquitectura Monolítica - Desventajas",
+                content: `
+                    <h3>Desventajas principales:</h3>
+                    <ul>
+                        <li><strong>Falta de modularidad:</strong> Difícil de mantener, extender o depurar.</li>
+                        <li><strong>Poca fiabilidad:</strong> Un error en cualquier componente puede afectar a todo el sistema.</li>
+                        <li><strong>Dificultad para actualizar:</strong> Requiere reiniciar el sistema para actualizar componentes.</li>
+                        <li><strong>Complejidad creciente:</strong> A medida que el sistema crece, se vuelve más difícil de gestionar.</li>
+                    </ul>
+                `
+            },
+            "monolitica-ejemplos": {
+                title: "Arquitectura Monolítica - Ejemplos y Usos",
+                content: `
+                    <h3>Ejemplos representativos:</h3>
+                    <ul>
+                        <li><strong>UNIX tradicional:</strong> El sistema operativo original que popularizó esta arquitectura.</li>
+                        <li><strong>Linux:</strong> Aunque admite módulos cargables, su núcleo es esencialmente monolítico.</li>
+                        <li><strong>MS-DOS y Windows 9x:</strong> Sistemas operativos de Microsoft que utilizaban arquitectura monolítica.</li>
+                        <li><strong>FreeBSD:</strong> Otro sistema tipo UNIX con núcleo monolítico.</li>
+                    </ul>
+                    <h3>Usos típicos:</h3>
+                    <p>Sistemas embebidos, servidores de alto rendimiento, sistemas donde la eficiencia es crítica.</p>
+                `
+            },
+            
+            // Microkernel
+            "microkernel-caracteristicas": {
+                title: "Arquitectura Microkernel - Características Principales",
+                content: `
+                    <p>La arquitectura microkernel se desarrolló como respuesta a las limitaciones de los sistemas monolíticos. En este enfoque, el núcleo del sistema operativo (microkernel) se reduce al mínimo esencial.</p>
+                    <h3>Características clave:</h3>
+                    <ul>
+                        <li><strong>Núcleo mínimo:</strong> Solo contiene funciones esenciales como gestión de memoria básica, IPC y planificación.</li>
+                        <li><strong>Servicios en modo usuario:</strong> La mayoría de los servicios del SO se ejecutan como procesos independientes.</li>
+                        <li><strong>Comunicación por mensajes:</strong> Los componentes se comunican mediante paso de mensajes (IPC).</li>
+                        <li><strong>Alta modularidad:</strong> Los servicios pueden añadirse, modificarse o eliminarse sin afectar al núcleo.</li>
+                        <li><strong>Mayor fiabilidad:</strong> Un fallo en un servicio no necesariamente colapsa todo el sistema.</li>
+                    </ul>
+                `
+            },
+            "microkernel-ventajas": {
+                title: "Arquitectura Microkernel - Ventajas",
+                content: `
+                    <h3>Ventajas principales:</h3>
+                    <ul>
+                        <li><strong>Mayor fiabilidad:</strong> El aislamiento de servicios previene fallos en cascada.</li>
+                        <li><strong>Flexibilidad y extensibilidad:</strong> Fácil añadir, modificar o eliminar servicios.</li>
+                        <li><strong>Portabilidad:</strong> El microkernel es pequeño y fácil de portar a diferentes hardware.</li>
+                        <li><strong>Seguridad:</strong> Los servicios en modo usuario tienen menos privilegios.</li>
+                        <li><strong>Mantenibilidad:</strong> Los componentes independientes son más fáciles de depurar y mantener.</li>
+                    </ul>
+                `
+            },
+            "microkernel-desventajas": {
+                title: "Arquitectura Microkernel - Desventajas",
+                content: `
+                    <h3>Desventajas principales:</h3>
+                    <ul>
+                        <li><strong>Sobrecarga de rendimiento:</strong> La comunicación por mensajes introduce latencia.</li>
+                        <li><strong>Complejidad del diseño:</strong> Diseñar un sistema eficiente con IPC puede ser complejo.</li>
+                        <li><strong>Mayor uso de memoria:</strong> Cada servicio requiere su propio espacio de direcciones.</li>
+                        <li><strong>Context switches frecuentes:</strong> Cambios entre modo kernel y usuario más frecuentes.</li>
+                    </ul>
+                `
+            },
+            "microkernel-ejemplos": {
+                title: "Arquitectura Microkernel - Ejemplos y Usos",
+                content: `
+                    <h3>Ejemplos representativos:</h3>
+                    <ul>
+                        <li><strong>MINIX:</strong> Sistema educativo diseñado por Andrew Tanenbaum.</li>
+                        <li><strong>QNX:</strong> Sistema en tiempo real utilizado en automoción, industrial y dispositivos médicos.</li>
+                        <li><strong>Mach:</strong> Microkernel utilizado como base para macOS y otros sistemas.</li>
+                        <li><strong>L4:</strong> Familia de microkernels de alto rendimiento.</li>
+                    </ul>
+                    <h3>Usos típicos:</h3>
+                    <p>Sistemas embebidos críticos, sistemas en tiempo real, entornos donde la fiabilidad es prioritaria.</p>
+                `
+            },
+            
+            // Distribuida
+            "distribuida-caracteristicas": {
+                title: "Arquitectura Distribuida - Características Principales",
+                content: `
+                    <p>Los sistemas operativos distribuidos permiten que un conjunto de computadoras independientes aparezca ante los usuarios como un único sistema coherente.</p>
+                    <h3>Características clave:</h3>
+                    <ul>
+                        <li><strong>Múltiples nodos:</strong> El sistema opera sobre varias máquinas interconectadas.</li>
+                        <li><strong>Transparencia:</strong> Los usuarios no necesitan conocer la ubicación física de los recursos.</li>
+                        <li><strong>Comunicación por red:</strong> Los nodos se comunican mediante protocolos de red.</li>
+                        <li><strong>Cooperación:</strong> Los nodos trabajan juntos para lograr objetivos comunes.</li>
+                        <li><strong>Tolerancia a fallos:</strong> El sistema puede continuar operando aunque algunos nodos fallen.</li>
+                    </ul>
+                `
+            },
+            "distribuida-ventajas": {
+                title: "Arquitectura Distribuida - Ventajas",
+                content: `
+                    <h3>Ventajas principales:</h3>
+                    <ul>
+                        <li><strong>Escalabilidad:</strong> Fácil añadir más nodos para aumentar capacidad.</li>
+                        <li><strong>Tolerancia a fallos:</strong> El sistema puede seguir funcionando con fallos parciales.</li>
+                        <li><strong>Compartición de recursos:</strong> Recursos costosos pueden compartirse entre múltiples usuarios.</li>
+                        <li><strong>Rendimiento mejorado:</strong> Carga de trabajo distribuida entre múltiples nodos.</li>
+                        <li><strong>Flexibilidad geográfica:</strong> Los nodos pueden estar distribuidos físicamente.</li>
+                    </ul>
+                `
+            },
+            "distribuida-desventajas": {
+                title: "Arquitectura Distribuida - Desventajas",
+                content: `
+                    <h3>Desventajas principales:</h3>
+                    <ul>
+                        <li><strong>Complejidad:</strong> Diseñar y mantener sistemas distribuidos es complejo.</li>
+                        <li><strong>Problemas de concurrencia:</strong> Gestionar acceso concurrente a recursos compartidos.</li>
+                        <li><strong>Dependencia de la red:</strong> El rendimiento depende de la calidad de la conexión.</li>
+                        <li><strong>Problemas de seguridad:</strong> Mayor superficie de ataque y problemas de autenticación distribuida.</li>
+                        <li><strong>Dificultad de depuración:</strong> Problemas que involucran múltiples nodos son difíciles de diagnosticar.</li>
+                    </ul>
+                `
+            },
+            "distribuida-ejemplos": {
+                title: "Arquitectura Distribuida - Ejemplos y Usos",
+                content: `
+                    <h3>Ejemplos representativos:</h3>
+                    <ul>
+                        <li><strong>Plan9:</strong> Sistema desarrollado por Bell Labs como sucesor de UNIX.</li>
+                        <li><strong>Amoeba:</strong> Sistema distribuido desarrollado por Andrew Tanenbaum.</li>
+                        <li><strong>Google File System:</strong> Sistema de archivos distribuido utilizado por Google.</li>
+                        <li><strong>Apache Hadoop:</strong> Framework para procesamiento distribuido de grandes datos.</li>
+                    </ul>
+                    <h3>Usos típicos:</h3>
+                    <p>Computación en la nube, sistemas de alto rendimiento, aplicaciones web escalables, sistemas de bases de datos distribuidas.</p>
+                `
+            }
+        };
+
+        // Funcionalidad JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cambiar entre arquitecturas
+            const tabs = document.querySelectorAll('.tab');
+            const maps = document.querySelectorAll('.concept-map');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const arch = this.getAttribute('data-arch');
+                    
+                    // Actualizar pestañas activas
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mostrar mapa correspondiente
+                    maps.forEach(map => {
+                        map.classList.remove('active');
+                        if (map.classList.contains(arch)) {
+                            map.classList.add('active');
+                        }
+                    });
+                    
+                    // Ocultar panel de información
+                    document.querySelector('.info-panel').classList.remove('active');
+                });
+            });
+            
+            // Mostrar información al hacer clic en nodos
+            const nodes = document.querySelectorAll('.concept-node');
+            const infoPanel = document.querySelector('.info-panel');
+            const infoTitle = document.querySelector('.info-title');
+            const infoContent = document.querySelector('.info-content');
+            const closeInfo = document.querySelector('.close-info');
+            
+            nodes.forEach(node => {
+                node.addEventListener('click', function() {
+                    const infoKey = this.getAttribute('data-info');
+                    
+                    if (infoData[infoKey]) {
+                        // Actualizar contenido
+                        infoTitle.textContent = infoData[infoKey].title;
+                        infoContent.innerHTML = infoData[infoKey].content;
+                        
+                        // Mostrar panel
+                        infoPanel.classList.add('active');
+                        
+                        // Desplazarse al panel
+                        infoPanel.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+            
+            // Cerrar panel de información
+            closeInfo.addEventListener('click', function() {
+                infoPanel.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
