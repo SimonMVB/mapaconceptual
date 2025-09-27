@@ -569,166 +569,231 @@
             "monolitica-caracteristicas": {
                 title: "Arquitectura Monolítica - Características Principales",
                 content: `
-                    <p>La arquitectura monolítica es el diseño más tradicional de sistemas operativos, donde todo el sistema operativo funciona como un único programa en modo kernel.</p>
+                    <p>La arquitectura monolítica es el diseño más tradicional de los sistemas operativos. En este modelo, todo el sistema operativo se implementa como un único programa grande que se ejecuta en modo kernel, lo que significa que todos sus componentes comparten el mismo espacio de memoria y tienen acceso total al hardware.</p>
                     <h3>Características clave:</h3>
                     <ul>
-                        <li><strong>Núcleo grande:</strong> Todo el sistema operativo se ejecuta en un único espacio de direcciones en modo kernel.</li>
-                        <li><strong>Alto acoplamiento:</strong> Los componentes del sistema están estrechamente interconectados.</li>
-                        <li><strong>Comunicación directa:</strong> Las funciones del sistema se invocan mediante llamadas directas a procedimientos.</li>
-                        <li><strong>Eficiencia:</strong> Al evitar la sobrecarga de comunicación entre procesos, suele ser más eficiente.</li>
-                        <li><strong>Dificultad de mantenimiento:</strong> Cualquier modificación puede afectar a múltiples componentes.</li>
+                        <li><strong>Núcleo grande:</strong> El kernel contiene la mayoría de los servicios del sistema (gestión de procesos, memoria, dispositivos de E/S, sistema de archivos, etc.), lo que lo convierte en un bloque central muy robusto.</li>
+                        <li><strong>Alto acoplamiento:</strong> Los diferentes módulos del sistema operativo están estrechamente integrados, lo que facilita la interacción directa entre ellos pero dificulta separar funciones</li>
+                        <li><strong>Comunicación directa:</strong> La interacción entre componentes se realiza mediante llamadas directas a procedimientos dentro del mismo espacio de memoria, lo que reduce la latencia en comparación con arquitecturas más complejas.</li>
+                        <li><strong>Eficiencia:</strong> Al no requerir capas intermedias ni mecanismos de comunicación entre procesos, suele ofrecer mayor velocidad y eficiencia en la ejecución</li>
+                        <li><strong>Dificultad de mantenimiento:</strong> Cualquier cambio o corrección en una parte del núcleo puede afectar a otros módulos, lo que hace que las actualizaciones y el mantenimiento sean más riesgosos y complejos</li>
                     </ul>
                 `
             },
             "monolitica-ventajas": {
-                title: "Arquitectura Monolítica - Ventajas",
-                content: `
-                    <h3>Ventajas principales:</h3>
-                    <ul>
-                        <li><strong>Alto rendimiento:</strong> Las llamadas al sistema son rápidas al ser simples invocaciones a funciones.</li>
-                        <li><strong>Simplicidad conceptual:</strong> Fácil de entender y desarrollar inicialmente.</li>
-                        <li><strong>Eficiencia en recursos:</strong> Menor sobrecarga de comunicación entre componentes.</li>
-                        <li><strong>Integración estrecha:</strong> Los componentes pueden optimizarse para trabajar juntos eficientemente.</li>
-                    </ul>
-                `
-            },
+    title: "Arquitectura Monolítica - Ventajas",
+    content: `
+        <p>La arquitectura monolítica destaca por su rendimiento y simplicidad en comparación con otros modelos de sistemas operativos. Sus ventajas principales se relacionan con la velocidad de ejecución y la integración natural de sus componentes.</p>
+        <h3>Ventajas principales:</h3>
+        <ul>
+            <li><strong>Alto rendimiento:</strong> Las llamadas al sistema se ejecutan como simples invocaciones a funciones dentro del mismo núcleo, lo que elimina intermediarios y permite respuestas rápidas.</li>
+            <li><strong>Simplicidad conceptual:</strong> Al ser un único programa, resulta más sencillo de comprender e implementar en sus primeras versiones, lo que lo hizo muy popular en los primeros sistemas operativos.</li>
+            <li><strong>Eficiencia en recursos:</strong> Al no requerir mecanismos adicionales de comunicación entre procesos, aprovecha mejor la memoria y el poder de procesamiento disponibles.</li>
+            <li><strong>Integración estrecha:</strong> Los distintos módulos del sistema están diseñados para trabajar de forma directa, lo que favorece la optimización y coordinación de tareas.</li>
+            <li><strong>Madurez tecnológica:</strong> Al ser la arquitectura más antigua, cuenta con amplia documentación, ejemplos históricos y una base sólida en su desarrollo.</li>
+        </ul>
+    `
+},
+
             "monolitica-desventajas": {
-                title: "Arquitectura Monolítica - Desventajas",
-                content: `
-                    <h3>Desventajas principales:</h3>
-                    <ul>
-                        <li><strong>Falta de modularidad:</strong> Difícil de mantener, extender o depurar.</li>
-                        <li><strong>Poca fiabilidad:</strong> Un error en cualquier componente puede afectar a todo el sistema.</li>
-                        <li><strong>Dificultad para actualizar:</strong> Requiere reiniciar el sistema para actualizar componentes.</li>
-                        <li><strong>Complejidad creciente:</strong> A medida que el sistema crece, se vuelve más difícil de gestionar.</li>
-                    </ul>
-                `
-            },
+    title: "Arquitectura Monolítica - Desventajas",
+    content: `
+        <p>Aunque la arquitectura monolítica ofrece eficiencia y simplicidad inicial, también presenta limitaciones importantes que afectan a su escalabilidad y mantenimiento. Estas desventajas se vuelven más notorias a medida que el sistema crece en tamaño y complejidad.</p>
+        <h3>Desventajas principales:</h3>
+        <ul>
+            <li><strong>Falta de modularidad:</strong> Al estar todo el sistema integrado en un solo núcleo, resulta difícil modificar o reemplazar componentes de manera independiente, lo que complica la depuración y el mantenimiento.</li>
+            <li><strong>Poca fiabilidad:</strong> Un fallo en cualquier módulo del sistema puede propagarse y comprometer la estabilidad de todo el sistema operativo.</li>
+            <li><strong>Dificultad para actualizar:</strong> Para realizar cambios, normalmente es necesario recompilar y reiniciar el sistema completo, lo que interrumpe su disponibilidad.</li>
+            <li><strong>Complejidad creciente:</strong> A medida que se añaden más funcionalidades, el núcleo se vuelve más grande y difícil de gestionar, lo que aumenta el riesgo de errores.</li>
+            <li><strong>Baja flexibilidad:</strong> Adaptar el sistema a nuevas necesidades o entornos resulta más complicado que en arquitecturas más modulares como el microkernel.</li>
+        </ul>
+    `
+},
+
             "monolitica-ejemplos": {
-                title: "Arquitectura Monolítica - Ejemplos y Usos",
-                content: `
-                    <h3>Ejemplos representativos:</h3>
-                    <ul>
-                        <li><strong>UNIX tradicional:</strong> El sistema operativo original que popularizó esta arquitectura.</li>
-                        <li><strong>Linux:</strong> Aunque admite módulos cargables, su núcleo es esencialmente monolítico.</li>
-                        <li><strong>MS-DOS y Windows 9x:</strong> Sistemas operativos de Microsoft que utilizaban arquitectura monolítica.</li>
-                        <li><strong>FreeBSD:</strong> Otro sistema tipo UNIX con núcleo monolítico.</li>
-                    </ul>
-                    <h3>Usos típicos:</h3>
-                    <p>Sistemas embebidos, servidores de alto rendimiento, sistemas donde la eficiencia es crítica.</p>
-                `
-            },
+    title: "Arquitectura Monolítica - Ejemplos y Usos",
+    content: `
+        <p>La arquitectura monolítica ha sido la base de muchos sistemas operativos históricos y actuales. Aunque hoy en día existen enfoques más modulares, sigue siendo utilizada en entornos donde el rendimiento es prioritario.</p>
+        
+        <h3>Ejemplos representativos:</h3>
+        <ul>
+            <li><strong>UNIX tradicional:</strong> Uno de los primeros sistemas operativos ampliamente usados, que popularizó esta arquitectura.</li>
+            <li><strong>Linux:</strong> Aunque admite módulos cargables dinámicamente, su núcleo es fundamentalmente monolítico.</li>
+            <li><strong>MS-DOS y Windows 9x:</strong> Ejemplos de sistemas monolíticos desarrollados por Microsoft, comunes en la informática personal de los años 80 y 90.</li>
+            <li><strong>FreeBSD:</strong> Sistema tipo UNIX con núcleo monolítico, usado en servidores y entornos académicos.</li>
+        </ul>
+
+        <h3>Usos típicos:</h3>
+        <p>
+            La arquitectura monolítica es especialmente útil en:
+        </p>
+        <ul>
+            <li><strong>Sistemas embebidos:</strong> Dispositivos electrónicos donde la eficiencia y el bajo consumo de recursos son esenciales.</li>
+            <li><strong>Servidores de alto rendimiento:</strong> Donde se requiere velocidad de ejecución y mínima sobrecarga en la comunicación entre componentes.</li>
+            <li><strong>Entornos controlados:</strong> Sistemas en los que el hardware y el software están bien definidos, reduciendo el riesgo de incompatibilidades.</li>
+            <li><strong>Aplicaciones críticas en eficiencia:</strong> Como sistemas de tiempo real o plataformas de investigación.</li>
+        </ul>
+    `
+},
+
             
             // Microkernel
-            "microkernel-caracteristicas": {
-                title: "Arquitectura Microkernel - Características Principales",
-                content: `
-                    <p>La arquitectura microkernel se desarrolló como respuesta a las limitaciones de los sistemas monolíticos. En este enfoque, el núcleo del sistema operativo (microkernel) se reduce al mínimo esencial.</p>
-                    <h3>Características clave:</h3>
-                    <ul>
-                        <li><strong>Núcleo mínimo:</strong> Solo contiene funciones esenciales como gestión de memoria básica, IPC y planificación.</li>
-                        <li><strong>Servicios en modo usuario:</strong> La mayoría de los servicios del SO se ejecutan como procesos independientes.</li>
-                        <li><strong>Comunicación por mensajes:</strong> Los componentes se comunican mediante paso de mensajes (IPC).</li>
-                        <li><strong>Alta modularidad:</strong> Los servicios pueden añadirse, modificarse o eliminarse sin afectar al núcleo.</li>
-                        <li><strong>Mayor fiabilidad:</strong> Un fallo en un servicio no necesariamente colapsa todo el sistema.</li>
-                    </ul>
-                `
-            },
+"microkernel-caracteristicas": {
+    title: "Arquitectura Microkernel - Características Principales",
+    content: `
+        <p>
+            La arquitectura de microkernel surge como alternativa a la monolítica, con el objetivo de mejorar la modularidad, la seguridad y la fiabilidad del sistema operativo. 
+            La idea principal es que el núcleo contenga solo lo estrictamente necesario y que el resto de los servicios se ejecuten en espacio de usuario.
+        </p>
+        <h3>Características clave:</h3>
+        <ul>
+            <li><strong>Núcleo mínimo:</strong> El microkernel incluye únicamente funciones esenciales como la planificación de procesos, gestión básica de memoria y mecanismos de comunicación entre procesos (IPC).</li>
+            <li><strong>Servicios en modo usuario:</strong> Módulos como controladores de dispositivos, sistemas de archivos o protocolos de red se ejecutan fuera del núcleo, reduciendo su complejidad.</li>
+            <li><strong>Comunicación por mensajes:</strong> La interacción entre componentes se realiza mediante paso de mensajes (IPC), en lugar de llamadas directas a funciones.</li>
+            <li><strong>Alta modularidad:</strong> Es posible agregar, modificar o eliminar servicios sin tener que recompilar todo el sistema operativo.</li>
+            <li><strong>Mayor fiabilidad y seguridad:</strong> Si un servicio falla, normalmente no afecta al resto del sistema, ya que cada módulo se ejecuta de manera aislada.</li>
+            <li><strong>Portabilidad:</strong> Al tener un núcleo pequeño y servicios desacoplados, suele ser más fácil adaptar el sistema a diferentes arquitecturas de hardware.</li>
+        </ul>
+    `
+},
+
             "microkernel-ventajas": {
-                title: "Arquitectura Microkernel - Ventajas",
-                content: `
-                    <h3>Ventajas principales:</h3>
-                    <ul>
-                        <li><strong>Mayor fiabilidad:</strong> El aislamiento de servicios previene fallos en cascada.</li>
-                        <li><strong>Flexibilidad y extensibilidad:</strong> Fácil añadir, modificar o eliminar servicios.</li>
-                        <li><strong>Portabilidad:</strong> El microkernel es pequeño y fácil de portar a diferentes hardware.</li>
-                        <li><strong>Seguridad:</strong> Los servicios en modo usuario tienen menos privilegios.</li>
-                        <li><strong>Mantenibilidad:</strong> Los componentes independientes son más fáciles de depurar y mantener.</li>
-                    </ul>
-                `
-            },
+    title: "Arquitectura Microkernel - Ventajas",
+    content: `
+        <p>
+            La arquitectura microkernel se diseñó para superar varias limitaciones de los sistemas monolíticos. 
+            Gracias a su modularidad y a la ejecución de servicios en modo usuario, ofrece un enfoque más seguro, flexible y mantenible.
+        </p>
+        <h3>Ventajas principales:</h3>
+        <ul>
+            <li><strong>Mayor fiabilidad:</strong> El aislamiento de los servicios evita que un error en un componente provoque el colapso de todo el sistema.</li>
+            <li><strong>Flexibilidad y extensibilidad:</strong> Es sencillo añadir nuevas funcionalidades o modificar servicios existentes sin afectar al núcleo.</li>
+            <li><strong>Portabilidad:</strong> Al tener un núcleo pequeño y genérico, resulta más fácil adaptarlo a diferentes arquitecturas de hardware.</li>
+            <li><strong>Seguridad mejorada:</strong> Al ejecutar la mayoría de servicios en modo usuario, con menos privilegios, se reduce el riesgo de comprometer el sistema completo.</li>
+            <li><strong>Mantenibilidad:</strong> La separación clara de componentes facilita la depuración, el mantenimiento y la actualización de partes específicas.</li>
+            <li><strong>Evolución tecnológica:</strong> Permite incorporar nuevas tecnologías o servicios sin necesidad de rediseñar el núcleo completo.</li>
+        </ul>
+    `
+},
+
             "microkernel-desventajas": {
-                title: "Arquitectura Microkernel - Desventajas",
-                content: `
-                    <h3>Desventajas principales:</h3>
-                    <ul>
-                        <li><strong>Sobrecarga de rendimiento:</strong> La comunicación por mensajes introduce latencia.</li>
-                        <li><strong>Complejidad del diseño:</strong> Diseñar un sistema eficiente con IPC puede ser complejo.</li>
-                        <li><strong>Mayor uso de memoria:</strong> Cada servicio requiere su propio espacio de direcciones.</li>
-                        <li><strong>Context switches frecuentes:</strong> Cambios entre modo kernel y usuario más frecuentes.</li>
-                    </ul>
-                `
-            },
+    title: "Arquitectura Microkernel - Desventajas",
+    content: `
+        <p>
+            Aunque la arquitectura microkernel ofrece ventajas importantes en modularidad, fiabilidad y seguridad, también presenta retos que afectan a su rendimiento y complejidad de implementación.
+        </p>
+        <h3>Desventajas principales:</h3>
+        <ul>
+            <li><strong>Sobrecarga de rendimiento:</strong> La comunicación basada en paso de mensajes (IPC) introduce latencia adicional en comparación con las llamadas directas de un sistema monolítico.</li>
+            <li><strong>Complejidad del diseño:</strong> Desarrollar un sistema eficiente con numerosos servicios externos y coordinación mediante IPC puede ser más complicado que en un núcleo monolítico.</li>
+            <li><strong>Mayor uso de memoria:</strong> Cada servicio independiente necesita su propio espacio de direcciones y estructuras de control, lo que incrementa el consumo de recursos.</li>
+            <li><strong>Cambios de contexto frecuentes:</strong> El sistema debe alternar constantemente entre modo usuario y modo kernel, lo que puede degradar el rendimiento en ciertas cargas de trabajo.</li>
+            <li><strong>Dificultad de optimización:</strong> Al estar los servicios desacoplados, aprovechar al máximo el hardware suele requerir técnicas más avanzadas.</li>
+        </ul>
+    `
+},
+
             "microkernel-ejemplos": {
-                title: "Arquitectura Microkernel - Ejemplos y Usos",
-                content: `
-                    <h3>Ejemplos representativos:</h3>
-                    <ul>
-                        <li><strong>MINIX:</strong> Sistema educativo diseñado por Andrew Tanenbaum.</li>
-                        <li><strong>QNX:</strong> Sistema en tiempo real utilizado en automoción, industrial y dispositivos médicos.</li>
-                        <li><strong>Mach:</strong> Microkernel utilizado como base para macOS y otros sistemas.</li>
-                        <li><strong>L4:</strong> Familia de microkernels de alto rendimiento.</li>
-                    </ul>
-                    <h3>Usos típicos:</h3>
-                    <p>Sistemas embebidos críticos, sistemas en tiempo real, entornos donde la fiabilidad es prioritaria.</p>
-                `
-            },
+    title: "Arquitectura Microkernel - Ejemplos y Usos",
+    content: `
+        <p>
+            La arquitectura microkernel ha sido empleada en proyectos académicos, industriales y comerciales. 
+            Aunque en muchos casos no alcanzó la popularidad de los sistemas monolíticos, se ha consolidado en entornos donde la seguridad, la modularidad y la fiabilidad son críticas.
+        </p>
+        <h3>Ejemplos representativos:</h3>
+        <ul>
+            <li><strong>MINIX:</strong> Sistema educativo diseñado por Andrew Tanenbaum para enseñar principios de sistemas operativos; inspiró el desarrollo de Linux.</li>
+            <li><strong>QNX:</strong> Sistema operativo en tiempo real ampliamente usado en automoción, sistemas industriales, telecomunicaciones y dispositivos médicos.</li>
+            <li><strong>Mach:</strong> Microkernel que sirvió como base para NeXTSTEP, y posteriormente influyó en macOS, iOS y otros sistemas de Apple.</li>
+            <li><strong>L4:</strong> Familia de microkernels de alto rendimiento utilizados en investigación, seguridad informática y sistemas embebidos.</li>
+        </ul>
+
+        <h3>Usos típicos:</h3>
+        <ul>
+            <li><strong>Sistemas embebidos críticos:</strong> Automóviles, robots y maquinaria industrial, donde la seguridad y fiabilidad son esenciales.</li>
+            <li><strong>Sistemas en tiempo real:</strong> Aplicaciones que requieren respuestas rápidas y determinísticas, como en la aviación o telecomunicaciones.</li>
+            <li><strong>Entornos de alta fiabilidad:</strong> Plataformas donde un fallo no puede comprometer el sistema completo, como en dispositivos médicos o de defensa.</li>
+            <li><strong>Investigación y docencia:</strong> Usados en universidades para enseñar conceptos de diseño modular y comunicación entre procesos.</li>
+        </ul>
+    `
+},
+
             
-            // Distribuida
-            "distribuida-caracteristicas": {
-                title: "Arquitectura Distribuida - Características Principales",
-                content: `
-                    <p>Los sistemas operativos distribuidos permiten que un conjunto de computadoras independientes aparezca ante los usuarios como un único sistema coherente.</p>
-                    <h3>Características clave:</h3>
-                    <ul>
-                        <li><strong>Múltiples nodos:</strong> El sistema opera sobre varias máquinas interconectadas.</li>
-                        <li><strong>Transparencia:</strong> Los usuarios no necesitan conocer la ubicación física de los recursos.</li>
-                        <li><strong>Comunicación por red:</strong> Los nodos se comunican mediante protocolos de red.</li>
-                        <li><strong>Cooperación:</strong> Los nodos trabajan juntos para lograr objetivos comunes.</li>
-                        <li><strong>Tolerancia a fallos:</strong> El sistema puede continuar operando aunque algunos nodos fallen.</li>
-                    </ul>
-                `
-            },
+           // Distribuida
+"distribuida-caracteristicas": {
+    title: "Arquitectura Distribuida - Características Principales",
+    content: `
+        <p>
+            Los sistemas operativos distribuidos permiten que un conjunto de computadoras independientes
+            interconectadas actúe como un solo sistema coherente para el usuario. Este enfoque busca aprovechar
+            los recursos de múltiples máquinas de manera transparente, eficiente y colaborativa.
+        </p>
+        <h3>Características clave:</h3>
+        <ul>
+            <li><strong>Múltiples nodos:</strong> El sistema se ejecuta sobre varias computadoras conectadas, cada una con su propio hardware y, a menudo, con su propio sistema operativo.</li>
+            <li><strong>Transparencia:</strong> Los usuarios perciben el conjunto de recursos distribuidos como si pertenecieran a un único sistema centralizado, sin necesidad de conocer su ubicación física.</li>
+            <li><strong>Comunicación por red:</strong> La interacción entre nodos se realiza mediante protocolos de red, generalmente bajo estándares como TCP/IP.</li>
+            <li><strong>Cooperación:</strong> Los nodos colaboran para compartir recursos, balancear cargas de trabajo y resolver tareas de manera conjunta.</li>
+            <li><strong>Tolerancia a fallos:</strong> El sistema puede seguir funcionando incluso si uno o varios nodos dejan de estar disponibles, gracias a mecanismos de redundancia y recuperación.</li>
+            <li><strong>Escalabilidad:</strong> Es posible añadir más nodos al sistema para aumentar su capacidad de procesamiento o almacenamiento sin necesidad de rediseñarlo por completo.</li>
+            <li><strong>Concurrencia:</strong> Varios procesos y usuarios pueden trabajar simultáneamente sobre diferentes nodos sin interferencias significativas.</li>
+        </ul>
+    `
+},
+
             "distribuida-ventajas": {
-                title: "Arquitectura Distribuida - Ventajas",
-                content: `
-                    <h3>Ventajas principales:</h3>
-                    <ul>
-                        <li><strong>Escalabilidad:</strong> Fácil añadir más nodos para aumentar capacidad.</li>
-                        <li><strong>Tolerancia a fallos:</strong> El sistema puede seguir funcionando con fallos parciales.</li>
-                        <li><strong>Compartición de recursos:</strong> Recursos costosos pueden compartirse entre múltiples usuarios.</li>
-                        <li><strong>Rendimiento mejorado:</strong> Carga de trabajo distribuida entre múltiples nodos.</li>
-                        <li><strong>Flexibilidad geográfica:</strong> Los nodos pueden estar distribuidos físicamente.</li>
-                    </ul>
-                `
-            },
-            "distribuida-desventajas": {
-                title: "Arquitectura Distribuida - Desventajas",
-                content: `
-                    <h3>Desventajas principales:</h3>
-                    <ul>
-                        <li><strong>Complejidad:</strong> Diseñar y mantener sistemas distribuidos es complejo.</li>
-                        <li><strong>Problemas de concurrencia:</strong> Gestionar acceso concurrente a recursos compartidos.</li>
-                        <li><strong>Dependencia de la red:</strong> El rendimiento depende de la calidad de la conexión.</li>
-                        <li><strong>Problemas de seguridad:</strong> Mayor superficie de ataque y problemas de autenticación distribuida.</li>
-                        <li><strong>Dificultad de depuración:</strong> Problemas que involucran múltiples nodos son difíciles de diagnosticar.</li>
-                    </ul>
-                `
-            },
-            "distribuida-ejemplos": {
-                title: "Arquitectura Distribuida - Ejemplos y Usos",
-                content: `
-                    <h3>Ejemplos representativos:</h3>
-                    <ul>
-                        <li><strong>Plan9:</strong> Sistema desarrollado por Bell Labs como sucesor de UNIX.</li>
-                        <li><strong>Amoeba:</strong> Sistema distribuido desarrollado por Andrew Tanenbaum.</li>
-                        <li><strong>Google File System:</strong> Sistema de archivos distribuido utilizado por Google.</li>
-                        <li><strong>Apache Hadoop:</strong> Framework para procesamiento distribuido de grandes datos.</li>
-                    </ul>
-                    <h3>Usos típicos:</h3>
-                    <p>Computación en la nube, sistemas de alto rendimiento, aplicaciones web escalables, sistemas de bases de datos distribuidas.</p>
-                `
-            }
+    title: "Arquitectura Distribuida - Ventajas",
+    content: `
+        <h3>Ventajas principales:</h3>
+        <ul>
+            <li><strong>Escalabilidad:</strong> Es sencillo añadir nuevos nodos al sistema para aumentar la capacidad de cómputo o almacenamiento, lo que permite que el sistema crezca de manera progresiva según las necesidades.</li>
+            <li><strong>Tolerancia a fallos:</strong> Gracias a la redundancia y a la distribución de procesos, si un nodo falla, otros pueden asumir sus tareas, evitando la caída completa del sistema.</li>
+            <li><strong>Compartición de recursos:</strong> Hardware y software costoso, como impresoras de alto rendimiento o grandes bases de datos, pueden ser utilizados por múltiples usuarios en diferentes ubicaciones.</li>
+            <li><strong>Rendimiento mejorado:</strong> La carga de trabajo se reparte entre distintos nodos, lo que permite ejecutar múltiples procesos en paralelo y aprovechar al máximo la capacidad del sistema.</li>
+            <li><strong>Flexibilidad geográfica:</strong> Los nodos pueden estar en distintas ubicaciones físicas, lo que facilita la colaboración entre equipos distribuidos y el acceso remoto a los recursos.</li>
+            <li><strong>Transparencia para el usuario:</strong> Los usuarios trabajan como si todo el sistema fuera uno solo, sin necesidad de preocuparse por qué nodo ejecuta sus procesos o dónde están almacenados los datos.</li>
+        </ul>
+    `
+},
+
+           "distribuida-desventajas": {
+    title: "Arquitectura Distribuida - Desventajas",
+    content: `
+        <h3>Desventajas principales:</h3>
+        <ul>
+            <li><strong>Complejidad:</strong> El diseño, implementación y administración de un sistema distribuido requieren mayor conocimiento técnico, ya que deben coordinarse múltiples nodos, servicios y protocolos.</li>
+            <li><strong>Problemas de concurrencia:</strong> El acceso simultáneo a recursos compartidos (archivos, bases de datos, memoria distribuida) puede generar conflictos y requiere mecanismos de sincronización avanzados.</li>
+            <li><strong>Dependencia de la red:</strong> El rendimiento y la disponibilidad del sistema dependen en gran medida de la calidad de la conexión de red; una red lenta o inestable puede afectar a todo el sistema.</li>
+            <li><strong>Problemas de seguridad:</strong> Al estar compuesto por múltiples nodos y comunicaciones en red, el sistema tiene una superficie de ataque mayor, lo que dificulta garantizar autenticación, cifrado y control de accesos.</li>
+            <li><strong>Dificultad de depuración:</strong> Localizar y resolver fallos es más complicado, ya que un problema puede originarse en un nodo específico, en la comunicación entre nodos o en la coordinación de procesos.</li>
+            <li><strong>Costos de infraestructura:</strong> Aunque permite compartir recursos, mantener múltiples nodos y una red confiable puede resultar costoso en comparación con un sistema centralizado.</li>
+        </ul>
+    `
+},
+
+           "distribuida-ejemplos": {
+    title: "Arquitectura Distribuida - Ejemplos y Usos",
+    content: `
+        <h3>Ejemplos representativos:</h3>
+        <ul>
+            <li><strong>Plan 9:</strong> Desarrollado por Bell Labs como sucesor de UNIX. Su objetivo era extender el concepto de sistema operativo a un entorno completamente distribuido, donde todos los recursos (archivos, dispositivos, procesos) se presentan de forma unificada a través de una interfaz de archivos.</li>
+            <li><strong>Amoeba:</strong> Creado por Andrew Tanenbaum, fue un sistema de investigación diseñado específicamente para explorar los principios de los sistemas distribuidos, implementando transparencia y un modelo cliente-servidor sobre múltiples nodos.</li>
+            <li><strong>Google File System (GFS):</strong> Sistema de archivos distribuido de Google diseñado para manejar grandes volúmenes de datos en miles de servidores, proporcionando redundancia, tolerancia a fallos y acceso eficiente a datos masivos.</li>
+            <li><strong>Apache Hadoop:</strong> Framework ampliamente utilizado para el procesamiento distribuido de grandes cantidades de datos. Utiliza el paradigma MapReduce y un sistema de archivos distribuido (HDFS) que permite trabajar con datos a escala de petabytes.</li>
+        </ul>
+        <h3>Usos típicos:</h3>
+        <p>
+            La arquitectura distribuida se utiliza en una amplia gama de escenarios modernos:
+        </p>
+        <ul>
+            <li><strong>Computación en la nube:</strong> Plataformas como AWS, Azure o Google Cloud funcionan sobre sistemas distribuidos.</li>
+            <li><strong>Sistemas de alto rendimiento:</strong> Supercomputadoras y clusters para simulaciones científicas o modelado 3D.</li>
+            <li><strong>Aplicaciones web escalables:</strong> Redes sociales, servicios de streaming y plataformas de comercio electrónico que requieren atender millones de usuarios en paralelo.</li>
+            <li><strong>Bases de datos distribuidas:</strong> Motores como Cassandra, MongoDB o Spanner permiten almacenar y consultar datos a gran escala en múltiples servidores.</li>
+        </ul>
+    `
+}
+
         };
 
         // Funcionalidad JavaScript
